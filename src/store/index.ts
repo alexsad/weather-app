@@ -2,6 +2,11 @@ import { createStore } from 'vuex'
 import { WeatherInfo } from '../interfaces/weather';
 import { Location } from '../interfaces/location';
 
+export interface Temp{
+  temp: number;
+  type: string;
+}
+
 
 export interface Weather {
   type: string;
@@ -13,53 +18,56 @@ export interface Weather {
   humidity: number;
   sunrise: string;
   sunset: string;
-  dawn: {
-    temp: number;
-    type: string;
-  };
-  morning: {
-    temp: number;
-    type: string;
-  };
-  afternoon: {
-    temp: number;
-    type: string;
-  };
-  night: {
-    temp: number;
-    type: string;
-  };
+  dawn: Temp;
+  morning: Temp;
+  afternoon: Temp;
+  night: Temp;
+}
+
+interface Hourly {
+  dt: number; 
+  temp: number;
+  hour: number;
+  weather: {
+    main: string;
+  }[];
+}
+
+const resetedState = () => {
+  return {
+    type: '',
+    description: '',
+    temp: 0,
+    maxTemp: 0,
+    minTemp: 0,
+    windSpeed: 0,
+    humidity: 0,
+    sunrise: '0:00 AM',
+    sunset: '0:00 PM',
+    dawn: {
+      temp: 0,
+      type: '',
+    },
+    morning: {
+      temp: 0,
+      type: '',
+    },
+    afternoon: {
+      temp: 0,
+      type: '',
+    },
+    night: {
+      temp: 0,
+      type: '',
+    },
+  } as Weather;
 }
 
 export default createStore({
   state: {
     weather: {
-      type: '',
-      description: '',
-      temp: 0,
-      maxTemp: 0,
-      minTemp: 0,
-      windSpeed: 0,
-      humidity: 0,
-      sunrise: '0:00 AM',
-      sunset: '0:00 PM',
-      dawn: {
-        temp: 0,
-        type: '',
-      },
-      morning: {
-        temp: 0,
-        type: '',
-      },
-      afternoon: {
-        temp: 0,
-        type: '',
-      },
-      night: {
-        temp: 0,
-        type: '',
-      },
-    } as Weather,
+      ...resetedState()
+    },
   },
   mutations: {
     changeWeather(state, weather: Weather) {
@@ -68,32 +76,8 @@ export default createStore({
   },
   actions: {
     resetWeather(context) {
-      context.commit('changeWeather', {
-        type: '',
-        description: '',
-        temp: 0,
-        maxTemp: 0,
-        minTemp: 0,
-        windSpeed: 0,
-        humidity: 0,
-        sunrise: '0:00 AM',
-        sunset: '0:00 PM',
-        dawn: {
-          temp: 0,
-          type: '',
-        },
-        morning: {
-          temp: 0,
-          type: '',
-        },
-        afternoon: {
-          temp: 0,
-          type: '',
-        },
-        night: {
-          temp: 0,
-          type: '',
-        },
+      context.commit('changeWeather',  {
+        ...resetedState()
       });
     },
     requestWeatherByCity(context, {city, country}: Location) {
@@ -110,7 +94,7 @@ export default createStore({
       const requestForecast = ({lat, lon}: {lat: number; lon: number}) => {
         return fetch(`weather-api/onecall?units=metric&lat=${lat}&lon=${lon}&exclude=daily,minutely,current`)
           .then(rs => rs.json())
-          .then(({hourly}: {hourly: any[]}) => {
+          .then(({hourly}: {hourly: Hourly[]}) => {
             const hourMap = new Map<number, string>();
             hourMap.set(3, 'dawn');
             hourMap.set(9, 'morning');
@@ -135,7 +119,7 @@ export default createStore({
                   };
                 }
                 return prev;
-              }, {});
+              }, {} as {[key: string]: Temp});
           });
       }
      
