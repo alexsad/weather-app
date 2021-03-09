@@ -125,32 +125,33 @@ export default createStore({
      
       fetch(`weather-api/weather?units=metric&q=${city},${country}`)
             .then(rs => rs.json())
-            .then((data: WeatherInfo) => {
-                const weather = {} as Weather;
+            .then(({main, sys, wind, weather, coord}: WeatherInfo) => {
+                const tempWeather = {} as Weather;
 
-                weather.temp = Math.round(data.main.temp);
-                weather.maxTemp = Math.round(data.main.temp_max);
-                weather.minTemp = Math.round(data.main.temp_min);
-                weather.windSpeed = data.wind.speed;
-                weather.humidity = data.main.humidity;
+                tempWeather.temp = Math.round(main.temp);
+                tempWeather.maxTemp = Math.round(main.temp_max);
+                tempWeather.minTemp = Math.round(main.temp_min);
+                tempWeather.windSpeed = wind.speed;
+                tempWeather.humidity = main.humidity;
 
-                weather.sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString("en-US").replace(/(:\d{2} )/g, ' ');
-                weather.sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString("en-US").replace(/(:\d{2} )/g, ' ');
+                const unixTimeToLocaleTimeString = (unixTime: number) =>  new Date(unixTime * 1000).toLocaleTimeString("en-US").replace(/(:\d{2} )/g, ' ');
 
-                const {main} = data.weather[0];
+                tempWeather.sunrise = unixTimeToLocaleTimeString(sys.sunrise);
+                tempWeather.sunset = unixTimeToLocaleTimeString(sys.sunset);
 
-                const type = stateToType(main);
+                const {main: mainType, description} = weather[0];
 
-                weather.type = type;
-                weather.description = type;
+                const type = stateToType(mainType);
 
-                if(!type && typeof main === 'string'){
-                    weather.description = main.toLowerCase();
-                    weather.type = 'rainy';
+                tempWeather.type = type;
+                tempWeather.description = description.toLowerCase();
+
+                if(type === ''){
+                  tempWeather.type = 'rainy';
                 }
 
-                requestForecast(data.coord).then(forecast => {
-                  context.commit('changeWeather', {...weather, ...forecast});
+                requestForecast(coord).then(forecast => {
+                  context.commit('changeWeather', {...tempWeather, ...forecast});
                 });
             });
     }
