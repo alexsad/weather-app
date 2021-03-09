@@ -73,5 +73,5 @@
 .icon-rain:before { content: '\e80f'; } /* '' */
 .icon-windy:before { content: '\e810'; } /* '' */
 .icon-cloud-sun:before { content: '\e811'; } /* '' */
-.icon-night-clouds:before { content: '\e812'; } /* '' */
+.icon-night-clouds:before, .icon-night-rainy:before { content: '\e812'; } /* '' */
 .icon-left:before { content: '\e813'; } /* '' */
