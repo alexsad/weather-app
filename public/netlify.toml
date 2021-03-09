@@ -1,0 +1,14 @@
+[[redirects]]
+  from = "/weather-api/weather"
+  query = {q = ":q", units = ":units"}
+  to = "https://api.openweathermap.org/data/2.5/weather?APPID=YOUR_KEY&q=:q&units=:units"
+  status = 200
+[[redirects]]
+  from = "/weather-api/onecall"
+  query = {lat = ":lat", lon = ":lon", units = ":units", exclude = ":exclude"}
+  to = "https://api.openweathermap.org/data/2.5/onecall?APPID=YOUR_KEY&lat=:lat&lon=:lon&units=:units&exclude=:exclude"
+  status = 200
+[[redirects]]
+  from = "/weather-api2"
+  to = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=YOUR_KEY"
+  status = 200
