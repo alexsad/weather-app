@@ -59,10 +59,6 @@
         background: linear-gradient(0deg, #ababab 0%, #e0e0e0 100%);
         color: #1f1f1f;
 
-        > .weather-detail > .more-weather-info-list > .weather-info {
-            border-right: 1px solid rgba($color: #000000, $alpha: .1);
-        }
-
         @include weather-detail-fade-out();
     }
 
@@ -148,31 +144,6 @@
             align-content: center;
             align-items: flex-start;
             margin-bottom: 20px;
-
-            > .weather-prev {
-                order: 0;
-                flex: 0 1 auto;
-                align-self: auto;
-
-                > * {
-                    display: block;
-                    width: 100%;
-                    text-align: center;
-                    font-weight: normal;
-                }
-
-                > i {
-                    font-size: 34px;
-                }
-
-                > span:first-child {
-                    font-size: 15px;
-                }
-                
-                > span:last-child {
-                    font-size: 19px;
-                }
-            }
         }
 
         > .more-weather-info-list {
@@ -183,34 +154,6 @@
             align-content: center;
             align-items: flex-start;
             margin-top: 40px;
-
-            > .weather-info:last-child {
-                border-right: 1px solid transparent;
-            }
-
-            > .weather-info {
-                order: 0;
-                flex: 1 1 auto;
-                align-self: auto;
-                border-right: 1px solid rgba($color: #ffffff, $alpha: .1);
-
-                > * {
-                    display: block;
-                    width: 100%;
-                    text-align: center;
-                }
-
-                > span:first-child {
-                    font-size: 15px;
-                    font-weight: lighter;
-                    margin-bottom: 5px;
-                }
-                
-                > span:last-child {
-                    font-size: 14px;
-                    font-weight: normal;
-                }
-            }
         }
     }
 }
@@ -224,7 +167,7 @@
     .loading(v-if="!weather.type")
     .weather-detail
         h1.location {{city.toUpperCase()}}
-        h2.weather {{weather.description === 'clear' ? 'sunny' : weather.description}}
+        h2.weather {{weather.description}}
         .temp 
             span {{weather.temp}}
             .variants
@@ -234,42 +177,28 @@
         .icon
             i(:class="'icon-' + weather.type")
         .weather-list
-            .weather-prev
-                span dawn
-                i(:class="'icon-' + weather.dawn.type")
-                span {{weather.dawn.temp}}°C
-            .weather-prev
-                span morning
-                i(:class="'icon-' + weather.morning.type")
-                span {{weather.morning.temp}}°C
-            .weather-prev
-                span afternoon
-                i(:class="'icon-' + weather.afternoon.type")
-                span {{weather.afternoon.temp}}°C
-            .weather-prev
-                span night
-                i(:class="'icon-night-' + weather.night.type")
-                span {{weather.night.temp}}°C
+            ForecastItem(description="dawn" :type="weather.dawn.type" :temp="weather.dawn.temp")
+            ForecastItem(description="morning" :type="weather.morning.type" :temp="weather.morning.temp")
+            ForecastItem(description="afternoon" :type="weather.afternoon.type" :temp="weather.afternoon.temp")
+            ForecastItem(description="night" :type="weather.night.type" :temp="weather.night.temp")
         .more-weather-info-list
-            .weather-info
-                span wind speed
-                span {{weather.windSpeed}} m/s
-            .weather-info
-                span sunrise
-                span {{weather.sunrise}}
-            .weather-info
-                span sunset
-                span {{weather.sunset}}
-            .weather-info
-                span humidity
-                span {{weather.humidity}}%
+            ExtraInfoItem(description="wind speed" :value="weather.windSpeed+' m/s'" :border-color="getExtraInfoItemBorderColor()")
+            ExtraInfoItem(description="sunrise" :value="weather.sunrise" :border-color="getExtraInfoItemBorderColor()")
+            ExtraInfoItem(description="sunset" :value="weather.sunset" :border-color="getExtraInfoItemBorderColor()")
+            ExtraInfoItem(description="humidity" :value="weather.humidity+'%'")
 </template>
 
 <script lang="ts">
 import {defineComponent, PropType} from 'vue';
 import { mapGetters, mapActions } from 'vuex';
+import ForecastItem from './forecast-item.vue';
+import ExtraInfoItem from './extra-info-item.vue';
 
 export default defineComponent({
+    components:{
+        ForecastItem,
+        ExtraInfoItem,
+    },
     computed: {
         ...mapGetters(['weather'])
     },
@@ -280,6 +209,9 @@ export default defineComponent({
 				this.$props.onBack();
             }
             this.resetWeather();
+        },
+        getExtraInfoItemBorderColor() {
+            return this.weather.type === 'snowy' ? 'rgba(0, 0, 0, .1)' : 'rgba(255, 255, 255, .1)'
         }
     },
     props: {
