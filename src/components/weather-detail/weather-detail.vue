@@ -175,12 +175,12 @@
                 span &uarr;{{weather.maxTemp}}°
                 span &darr;{{weather.minTemp}}°
         .icon
-            i(:class="'icon-' + weather.type")
+            i(:class="'icon-' + weather.icon")
         .weather-list
-            ForecastItem(description="dawn" :type="weather.dawn.type" :temp="weather.dawn.temp")
-            ForecastItem(description="morning" :type="weather.morning.type" :temp="weather.morning.temp")
-            ForecastItem(description="afternoon" :type="weather.afternoon.type" :temp="weather.afternoon.temp")
-            ForecastItem(description="night" :type="weather.night.type" :temp="weather.night.temp")
+            ForecastItem(description="dawn" :icon="weather.dawn.icon" :temp="weather.dawn.temp")
+            ForecastItem(description="morning" :icon="weather.morning.icon" :temp="weather.morning.temp")
+            ForecastItem(description="afternoon" :icon="weather.afternoon.icon" :temp="weather.afternoon.temp")
+            ForecastItem(description="night" :icon="weather.night.icon" :temp="weather.night.temp")
         .more-weather-info-list
             ExtraInfoItem(description="wind speed" :value="weather.windSpeed+' m/s'" :border-color="getExtraInfoItemBorderColor()")
             ExtraInfoItem(description="sunrise" :value="weather.sunrise" :border-color="getExtraInfoItemBorderColor()")
