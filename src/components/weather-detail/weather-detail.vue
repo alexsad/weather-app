@@ -64,7 +64,7 @@
 
     > .weather-detail {
         width: 326px;
-        height: auto;
+        height: 100%;
         overflow: hidden;
         box-sizing: border-box;
         margin: 0px auto;
