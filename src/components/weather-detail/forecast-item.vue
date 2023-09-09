@@ -28,7 +28,7 @@
 <template lang="pug">
 .forecast-item
     span {{description}}
-    i(:class="'icon-night-' + type")
+    i(:class="'icon-' + icon")
     span {{temp}}°C
 </template>
 
@@ -37,7 +37,7 @@ import {defineComponent} from 'vue';
 export default defineComponent({
     props: {
         description: String,
-        type: String,
+        icon: String,
         temp: Number,
     },
 })

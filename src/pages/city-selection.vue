@@ -7,7 +7,7 @@
 
     > .city-selection{
         width: 326px;
-        height: auto;
+        height: 100%;
         overflow: hidden;
         box-sizing: border-box;
         color: #efefef;

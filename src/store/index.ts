@@ -5,12 +5,14 @@ import { Location } from '../interfaces/location';
 export interface Temp{
   temp: number;
   type: string;
+  icon: string;
 }
 
 
 export interface Weather {
   type: string;
   description: string;
+  icon: string;
   temp: number;
   maxTemp: number;
   minTemp: number;
@@ -28,8 +30,10 @@ interface Hourly {
   dt: number; 
   temp: number;
   hour: number;
+  icon: string;
   weather: {
     main: string;
+    icon: string;
   }[];
 }
 
@@ -47,18 +51,22 @@ const resetedState = () => {
     dawn: {
       temp: 0,
       type: '',
+      icon: '',
     },
     morning: {
       temp: 0,
       type: '',
+      icon: '',
     },
     afternoon: {
       temp: 0,
       type: '',
+      icon: '',
     },
     night: {
       temp: 0,
       type: '',
+      icon: '',
     },
   } as Weather;
 }
@@ -113,9 +121,11 @@ export default createStore({
               .reduce((prev, curr) => {
                 const hourDescription = hourMap.get(curr.hour) ?? '';
                 if(!(hourDescription in prev)){
+                  const {main, icon} = curr.weather[0];
                   prev[hourDescription] = {
                     temp: Math.round(curr.temp),
-                    type: stateToType(curr.weather[0].main)
+                    type: stateToType(main),
+                    icon: icon
                   };
                 }
                 return prev;
@@ -139,12 +149,13 @@ export default createStore({
                 tempWeather.sunrise = unixTimeToLocaleTimeString(sys.sunrise);
                 tempWeather.sunset = unixTimeToLocaleTimeString(sys.sunset);
 
-                const {main: mainType, description} = weather[0];
+                const {main: mainType, description, icon} = weather[0];
 
                 const type = stateToType(mainType);
 
                 tempWeather.type = type;
                 tempWeather.description = description.toLowerCase();
+                tempWeather.icon = icon;
 
                 if(type === ''){
                   tempWeather.type = 'rainy';
