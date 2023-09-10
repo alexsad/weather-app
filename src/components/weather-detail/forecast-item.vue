@@ -1,27 +1,27 @@
 <style lang="scss">
 .forecast-item {
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
 
-    > * {
-        display: block;
-        width: 100%;
-        text-align: center;
-        font-weight: normal;
-    }
+  > * {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: normal;
+  }
 
-    > i {
-        font-size: 34px;
-    }
+  > i {
+    font-size: 34px;
+  }
 
-    > span:first-child {
-        font-size: 15px;
-    }
-    
-    > span:last-child {
-        font-size: 19px;
-    }
+  > span:first-child {
+    font-size: 15px;
+  }
+
+  > span:last-child {
+    font-size: 19px;
+  }
 }
 </style>
 
@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import { defineComponent } from 'vue'
 export default defineComponent({
-    props: {
-        description: String,
-        icon: String,
-        temp: Number,
-    },
+  props: {
+    description: String,
+    icon: String,
+    temp: Number
+  }
 })
 </script>
