@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import './assets/fontello-afd02c25/css/fontello.css';
+import { RouterView } from 'vue-router'
+import './assets/fontello-afd02c25/css/fontello.css'
 </script>
 <template>
   <header>

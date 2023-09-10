@@ -1,26 +1,26 @@
 <style lang="scss">
 .extra-weather-info-item {
-    order: 0;
-    flex: 1 1 auto;
-    align-self: auto;
-    border-right: 1px solid transparent;
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
+  border-right: 1px solid transparent;
 
-    > * {
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
+  > * {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 
-    > span:first-child {
-        font-size: 15px;
-        font-weight: lighter;
-        margin-bottom: 5px;
-    }
-    
-    > span:last-child {
-        font-size: 14px;
-        font-weight: normal;
-    }
+  > span:first-child {
+    font-size: 15px;
+    font-weight: lighter;
+    margin-bottom: 5px;
+  }
+
+  > span:last-child {
+    font-size: 14px;
+    font-weight: normal;
+  }
 }
 </style>
 
@@ -31,13 +31,13 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-    props: {
-        description: String,
-        value: String,
-        borderColor: String,
-    },
+  props: {
+    description: String,
+    value: String,
+    borderColor: String
+  }
 })
 </script>
