@@ -1,6 +1,5 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
-import { RouterLink } from 'vue-router';
 import {useWeatherStore} from '@/store/weather-store';
 
 export default defineComponent({

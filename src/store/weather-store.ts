@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia';
-import * as location from '@/interfaces/location';
 import * as weather from '@/interfaces/weather';
   
 const resetedState = () => {

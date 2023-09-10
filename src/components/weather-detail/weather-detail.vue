@@ -3,7 +3,6 @@ import {defineComponent} from 'vue';
 import ForecastItem from './forecast-item.vue';
 import ExtraInfoItem from './extra-info-item.vue';
 import { useRoute } from 'vue-router';
-import { RouterLink } from 'vue-router';
 import {useWeatherStore} from '@/store/weather-store';
 
 export default defineComponent({
